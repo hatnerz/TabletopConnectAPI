@@ -1,0 +1,6 @@
+@TabletopConnect.API_HostAddress = http://localhost:5262
+
+GET {{TabletopConnect.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

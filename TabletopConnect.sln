@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79E18AB0-48CA-4632-8D96-FCECF33564BC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopConnect.API", "src\TabletopConnect.API\TabletopConnect.API.csproj", "{13AD7A49-0873-47F2-8A88-EC4482160F94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C7FD06A1-16BE-466C-9BC4-90B34A913DB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopConnect.Application", "src\TabletopConnect.Application\TabletopConnect.Application.csproj", "{F40923EF-720C-43E6-BF73-0F3933498182}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopConnect.Persistence", "src\TabletopConnect.Persistence\TabletopConnect.Persistence.csproj", "{06564F38-8158-472B-BB37-E59F02C77E68}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopConnect.Infrastructure", "src\TabletopConnect.Infrastructure\TabletopConnect.Infrastructure.csproj", "{86A9D2FB-2991-4119-8F27-DCA92C38540F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopConnect.Domain", "src\TabletopConnect.Domain\TabletopConnect.Domain.csproj", "{DB732E23-DB29-4E97-BBB2-02C91656FCB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabletopConnect.Common", "src\TabletopConnect.Common\TabletopConnect.Common.csproj", "{908263C7-61F4-4529-9495-18D56CBF0C5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13AD7A49-0873-47F2-8A88-EC4482160F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13AD7A49-0873-47F2-8A88-EC4482160F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13AD7A49-0873-47F2-8A88-EC4482160F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13AD7A49-0873-47F2-8A88-EC4482160F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F40923EF-720C-43E6-BF73-0F3933498182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40923EF-720C-43E6-BF73-0F3933498182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40923EF-720C-43E6-BF73-0F3933498182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40923EF-720C-43E6-BF73-0F3933498182}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06564F38-8158-472B-BB37-E59F02C77E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06564F38-8158-472B-BB37-E59F02C77E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06564F38-8158-472B-BB37-E59F02C77E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06564F38-8158-472B-BB37-E59F02C77E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86A9D2FB-2991-4119-8F27-DCA92C38540F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86A9D2FB-2991-4119-8F27-DCA92C38540F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86A9D2FB-2991-4119-8F27-DCA92C38540F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86A9D2FB-2991-4119-8F27-DCA92C38540F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB732E23-DB29-4E97-BBB2-02C91656FCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB732E23-DB29-4E97-BBB2-02C91656FCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB732E23-DB29-4E97-BBB2-02C91656FCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB732E23-DB29-4E97-BBB2-02C91656FCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{908263C7-61F4-4529-9495-18D56CBF0C5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{908263C7-61F4-4529-9495-18D56CBF0C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{908263C7-61F4-4529-9495-18D56CBF0C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{908263C7-61F4-4529-9495-18D56CBF0C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13AD7A49-0873-47F2-8A88-EC4482160F94} = {C7FD06A1-16BE-466C-9BC4-90B34A913DB0}
+		{F40923EF-720C-43E6-BF73-0F3933498182} = {C7FD06A1-16BE-466C-9BC4-90B34A913DB0}
+		{06564F38-8158-472B-BB37-E59F02C77E68} = {C7FD06A1-16BE-466C-9BC4-90B34A913DB0}
+		{86A9D2FB-2991-4119-8F27-DCA92C38540F} = {C7FD06A1-16BE-466C-9BC4-90B34A913DB0}
+		{DB732E23-DB29-4E97-BBB2-02C91656FCB0} = {C7FD06A1-16BE-466C-9BC4-90B34A913DB0}
+		{908263C7-61F4-4529-9495-18D56CBF0C5F} = {C7FD06A1-16BE-466C-9BC4-90B34A913DB0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8134B815-7E18-4F81-9D33-4D6A393AD58A}
+	EndGlobalSection
+EndGlobal
