@@ -2,9 +2,9 @@
 
 namespace TabletopConnect.Domain.Entities.Dictionaries;
 
-public class GameDesigner : BaseDictionary<int>
+public class Mechanic : BaseClassifier<int>
 {
-    public GameDesigner(string name) : base(name)
+    public Mechanic(string name) : base(name)
     {
     }
 }

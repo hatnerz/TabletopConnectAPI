@@ -12,17 +12,10 @@ internal class BoardGameEntityConfiguration : IdentifiableEntityConfiguration<Bo
     {
         base.Configure(builder);
 
-        builder.Property(e => e.Name)
-            .IsRequired()
-            .HasMaxLength(100);
-
         builder.OwnsOne(e => e.BggData);
         builder.OwnsOne(e => e.PlayTime);
         builder.OwnsOne(e => e.RecommendedPlayers, players =>
         {
-            players.Property(p => p.BestPlayers)
-                .IsRequired();
-
             var converter = new ValueConverter<List<int>?, string>(
                 v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                 v => JsonSerializer.Deserialize<List<int>?>(v, (JsonSerializerOptions?)null));

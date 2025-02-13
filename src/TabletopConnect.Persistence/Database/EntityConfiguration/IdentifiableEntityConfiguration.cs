@@ -4,7 +4,7 @@ using TabletopConnect.Domain.Entities.Common;
 
 namespace TabletopConnect.Persistence.Database.EntityConfiguration;
 
-internal class IdentifiableEntityConfiguration<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
+internal abstract class IdentifiableEntityConfiguration<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
     where TEntity : Entity<TKey>
     where TKey : struct
 {

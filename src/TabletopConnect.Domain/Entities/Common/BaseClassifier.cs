@@ -1,11 +1,11 @@
 ﻿namespace TabletopConnect.Domain.Entities.Common;
 
-public abstract class BaseDictionary<TKey> : SoftEntity<TKey>
+public abstract class BaseClassifier<TKey> : SoftEntity<TKey>
     where TKey : struct
 {
     public string Name { get; private set; }
 
-    protected BaseDictionary(string name)
+    protected BaseClassifier(string name)
     {
         Name = name;
     }

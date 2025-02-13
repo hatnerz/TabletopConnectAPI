@@ -2,9 +2,9 @@
 
 namespace TabletopConnect.Domain.Entities.Dictionaries;
 
-public class Subcategory : BaseDictionary<int>
+public class Publisher : BaseClassifier<int>
 {
-    public Subcategory(string name) : base(name)
+    public Publisher(string name) : base(name)
     {
     }
 }

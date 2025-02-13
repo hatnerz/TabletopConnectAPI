@@ -2,9 +2,9 @@
 
 namespace TabletopConnect.Domain.Entities.Dictionaries;
 
-public class GameFamily : BaseDictionary<int>
+public class Subcategory : BaseClassifier<int>
 {
-    public GameFamily(string name) : base(name)
+    public Subcategory(string name) : base(name)
     {
     }
 }
