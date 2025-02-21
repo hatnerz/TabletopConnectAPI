@@ -13,7 +13,7 @@ public interface IRepository<TEntity, TKey>
 
     Task<TEntity?> GetByIdReadOnlyAsync(TKey id, CancellationToken cancellationToken = default);
 
-    Task<List<TEntity>> GetAllReadOnlyAsync(CancellationToken cancellationToken = default);
+    Task<List<TEntity>> GetAllReadonlyAsync(CancellationToken cancellationToken = default);
 
     void Add(TEntity entity);
 

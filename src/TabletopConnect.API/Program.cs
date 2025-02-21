@@ -1,9 +1,20 @@
+using TabletopConnect.API.Extensions;
+using TabletopConnect.Infrastructure.Extensions;
+using TabletopConnect.Application.Extensions;
+using TabletopConnect.Persistence.Extensions;
+using Microsoft.Extensions.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddLogging((builder) => builder.AddConsole());
+builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddInfrastructureService();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
@@ -35,6 +46,8 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.RegisterEndpoints();
 
 app.Run();
 

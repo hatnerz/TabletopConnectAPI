@@ -9,7 +9,25 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TabletopConnect.Application\TabletopConnect.Application.csproj" />
+    <ProjectReference Include="..\TabletopConnect.Common\TabletopConnect.Common.csproj" />
+    <ProjectReference Include="..\TabletopConnect.Domain\TabletopConnect.Domain.csproj" />
+    <ProjectReference Include="..\TabletopConnect.Infrastructure\TabletopConnect.Infrastructure.csproj" />
+    <ProjectReference Include="..\TabletopConnect.Persistence\TabletopConnect.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\games.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

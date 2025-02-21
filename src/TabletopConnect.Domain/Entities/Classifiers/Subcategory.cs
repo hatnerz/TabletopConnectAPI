@@ -1,6 +1,6 @@
 ﻿using TabletopConnect.Domain.Entities.Common;
 
-namespace TabletopConnect.Domain.Entities.Dictionaries;
+namespace TabletopConnect.Domain.Entities.Classifiers;
 
 public class Subcategory : BaseClassifier<int>
 {

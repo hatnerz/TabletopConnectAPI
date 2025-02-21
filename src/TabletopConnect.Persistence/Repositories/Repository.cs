@@ -34,7 +34,7 @@ internal abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
         return await _readonlySet.FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
     }
 
-    public async Task<List<TEntity>> GetAllReadOnlyAsync(CancellationToken cancellationToken = default)
+    public async Task<List<TEntity>> GetAllReadonlyAsync(CancellationToken cancellationToken = default)
     {
         return await _readonlySet.ToListAsync(cancellationToken);
     }

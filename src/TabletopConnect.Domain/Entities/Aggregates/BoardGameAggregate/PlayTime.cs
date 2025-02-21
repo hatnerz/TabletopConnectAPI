@@ -9,6 +9,10 @@ public class PlayTime
     public int? CommunityMinPlayTime { get; set; }
     public int? CommunityMaxPlayTime { get; set; }
 
+    private PlayTime()
+    {
+    }
+
     public PlayTime(int manufacturerStatedPlayTime, int? communityMinPlayTime, int? communityMaxPlayTime)
     {
         NumberValidators.ValidateRangeInclusive<int>(manufacturerStatedPlayTime, 0, null, nameof(ManufacturerStatedPlayTime));

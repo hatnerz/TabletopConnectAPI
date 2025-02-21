@@ -1,6 +1,6 @@
 ﻿namespace TabletopConnect.Application.Persistence.Interfaces;
 
-internal interface IUnitOfWork
+public interface IUnitOfWork
 {
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -5,6 +5,9 @@ namespace TabletopConnect.Domain.Validators;
 
 public static class CredentialsValidators
 {
+
+    private const string phonePattern = @"^\+?\d{7,15}$";
+
     public static void ValidateEmail(string email, string? fieldName = "Email")
     {
         if (string.IsNullOrWhiteSpace(email))
@@ -20,7 +23,6 @@ public static class CredentialsValidators
         if (string.IsNullOrWhiteSpace(phoneNumber))
             throw new DomainValidationException($"{fieldName} cannot be empty.", fieldName);
 
-        string phonePattern = @"^\+?\d{7,15}$";
         if (!Regex.IsMatch(phoneNumber, phonePattern))
             throw new DomainValidationException($"{fieldName} is not a valid phone number.", fieldName);
     }

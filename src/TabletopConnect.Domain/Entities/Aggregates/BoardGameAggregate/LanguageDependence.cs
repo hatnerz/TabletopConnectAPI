@@ -2,6 +2,7 @@
 
 public enum LanguageDependence
 {
+    Unknown = 0,
     NoInGameText = 1, // No necessary in-game text
     SomeInGameText = 2, // Some necessary text - easily memorized or small crib sheet
     ModerateInGameText = 3, // Moderate in-game text - needs crib sheet or paste ups

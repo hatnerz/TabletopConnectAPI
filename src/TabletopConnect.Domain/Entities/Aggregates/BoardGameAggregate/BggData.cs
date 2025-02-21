@@ -8,8 +8,12 @@ public class BggData
     public int NumberWanted { get; private set; }
     public int NumberWished { get; private set; }
     public int NumberWeightVotes { get; private set; }
-    public int AverageRating { get; private set; }
+    public double AverageRating { get; private set; }
     public int RankOverall { get; private set; }
+
+    private BggData()
+    {
+    }
 
     public BggData(
         int bggId,
@@ -18,7 +22,7 @@ public class BggData
         int numberWanted,
         int numberWished,
         int numberWeightVotes,
-        int averageRating,
+        double averageRating,
         int rankOverall)
     {
         BggId = bggId;

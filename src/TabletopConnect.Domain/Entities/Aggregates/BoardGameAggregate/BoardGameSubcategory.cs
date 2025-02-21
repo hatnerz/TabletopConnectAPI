@@ -4,12 +4,16 @@ namespace TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
 public class BoardGameSubcategory : Entity<int>
 {
-    public int GameId { get; set; }
+    public int BoardGameId { get; set; }
     public int SubcategoryId { get; set; }
+
+    private BoardGameSubcategory()
+    {
+    }
 
     public BoardGameSubcategory(int gameId, int subcategoryId)
     {
-        GameId = gameId;
+        BoardGameId = gameId;
         SubcategoryId = subcategoryId;
     }
 }

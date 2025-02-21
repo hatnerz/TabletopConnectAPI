@@ -1,0 +1,2 @@
+dotnet ef database update --project src/TabletopConnect.Persistence --startup-project src/TabletopConnect.API --context TabletopDbContext --connection "Server=localhost\SQLEXPRESS;Database=TabletopConnectDb;Trusted_Connection=true;TrustServerCertificate=true;MultipleActiveResultSets=true"
+pause
