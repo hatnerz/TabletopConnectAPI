@@ -2,16 +2,15 @@
 
 namespace TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
-public class BoardGameTheme : Entity<int>
+public class BoardGameTheme : BoardGameRelatedClassifier<int>
 {
-    public int BoardGameId { get; set; }
     public int ThemeId { get; set; }
 
     private BoardGameTheme()
     {
     }
 
-    public BoardGameTheme(int gameId, int themeId)
+    public BoardGameTheme(int gameId, int themeId) : base(gameId)
     {
         BoardGameId = gameId;
         ThemeId = themeId;

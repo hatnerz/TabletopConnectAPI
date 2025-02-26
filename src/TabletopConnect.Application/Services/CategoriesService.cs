@@ -6,7 +6,7 @@ namespace TabletopConnect.Application.Services;
 
 public class CategoriesService : ClassifierService<Category>, ICategoriesService
 {
-    public CategoriesService(ICategoriesRepository repository, IUnitOfWork unitOfWork)
+    public CategoriesService(IClassifiersRepository<Category, int> repository, IUnitOfWork unitOfWork)
         : base(repository, unitOfWork)
     {
     }

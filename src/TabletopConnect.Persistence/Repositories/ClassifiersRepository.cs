@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TabletopConnect.Application.Persistence.Interfaces;
 using TabletopConnect.Domain.Entities.Common;
+using TabletopConnect.Persistence.Database;
 
 namespace TabletopConnect.Persistence.Repositories;
 
@@ -8,7 +9,7 @@ internal class ClassifiersRepository<TEntity, TKey> : Repository<TEntity, TKey>,
     where TEntity : BaseClassifier<TKey>
     where TKey : struct
 {
-    public ClassifiersRepository(DbContext context) : base(context)
+    public ClassifiersRepository(TabletopDbContext context) : base(context)
     {
     }
 

@@ -33,7 +33,6 @@ public class BoardGame : SoftEntity<int>
     public IReadOnlyCollection<BoardGamePublisher> BoardGamePublishers => _boardGamePublishers.AsReadOnly();
     public IReadOnlyCollection<BoardGameTheme> BoardGameThemes => _boardGameThemes.AsReadOnly();
 
-
     private BoardGame()
     {
     }

@@ -29,13 +29,13 @@ public abstract class ClassifierService<TClassifier> : IClassifierService<TClass
         return await _repository.GetAllReadonlyAsync(cancellationToken);
     }
 
-    public async Task<ValidationResult> CreateAsync(string name, CancellationToken cancellationToken = default)
+    public async Task<ValidationResultDto> CreateAsync(string name, CancellationToken cancellationToken = default)
     {
         var existingEntity = await _repository.GetByNameAsync(name, cancellationToken);
         if (existingEntity is not null)
         {
-            var error = new ValidationError(ValidationMessages.Common.EntityAlreadyExists(typeof(TClassifier).Name, nameof(name)));
-            return ValidationResult.CreateFailure([error]);
+            var error = new ValidationErrorDto(ValidationMessages.Common.EntityAlreadyExists(typeof(TClassifier).Name, nameof(name)));
+            return ValidationResultDto.CreateFailure([error]);
         }
 
         TClassifier? entity;
@@ -43,45 +43,45 @@ public abstract class ClassifierService<TClassifier> : IClassifierService<TClass
 
         if (entity is null)
         {
-            var error  = new ValidationError(ValidationMessages.Common.EntityCreationFailture(typeof(TClassifier).Name));
-            return ValidationResult.CreateFailure([error]);
+            var error  = new ValidationErrorDto(ValidationMessages.Common.EntityCreationFailture(typeof(TClassifier).Name));
+            return ValidationResultDto.CreateFailure([error]);
         }
 
         _repository.Add(entity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return ValidationResult.CreateSuccess();
+        return ValidationResultDto.CreateSuccess();
     }
 
-    public async Task<ValidationResult> UpdateAsync(int id, string name, CancellationToken cancellationToken = default)
+    public async Task<ValidationResultDto> UpdateAsync(int id, string name, CancellationToken cancellationToken = default)
     {
         var existingEntity = await _repository.GetByIdAsync(id, cancellationToken);
 
         if (existingEntity is null)
         {
-            var error = new ValidationError(ValidationMessages.Common.EntityNotExists(typeof(TClassifier).Name, nameof(id)));
-            return ValidationResult.CreateFailure([error]);
+            var error = new ValidationErrorDto(ValidationMessages.Common.EntityNotExists(typeof(TClassifier).Name, nameof(id)));
+            return ValidationResultDto.CreateFailure([error]);
         }
 
         existingEntity.Update(name);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return ValidationResult.CreateSuccess();
+        return ValidationResultDto.CreateSuccess();
     }
 
-    public async Task<ValidationResult> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<ValidationResultDto> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var existingEntity = await _repository.GetByIdAsync(id, cancellationToken);
 
         if (existingEntity is null)
         {
-            var error = new ValidationError(ValidationMessages.Common.EntityNotExists(typeof(TClassifier).Name, nameof(id)));
-            return ValidationResult.CreateFailure([error]);
+            var error = new ValidationErrorDto(ValidationMessages.Common.EntityNotExists(typeof(TClassifier).Name, nameof(id)));
+            return ValidationResultDto.CreateFailure([error]);
         }
 
         _repository.Remove(existingEntity);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return ValidationResult.CreateSuccess();
+        return ValidationResultDto.CreateSuccess();
     }
 }

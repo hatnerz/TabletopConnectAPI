@@ -210,6 +210,40 @@ namespace TabletopConnect.Persistence.Migrations
                     b.ToTable("BoardGameThemes", (string)null);
                 });
 
+            modelBuilder.Entity("TabletopConnect.Domain.Entities.Aggregates.PlayerProfile.PlayerProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("PlayerProfiles", (string)null);
+                });
+
             modelBuilder.Entity("TabletopConnect.Domain.Entities.Classifiers.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -348,6 +382,45 @@ namespace TabletopConnect.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Themes", (string)null);
+                });
+
+            modelBuilder.Entity("TabletopConnect.Domain.Entities.IAM.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("GoogleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsEmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("GoogleId")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate.BoardGame", b =>
@@ -560,6 +633,15 @@ namespace TabletopConnect.Persistence.Migrations
                     b.HasOne("TabletopConnect.Domain.Entities.Classifiers.Theme", null)
                         .WithMany()
                         .HasForeignKey("ThemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TabletopConnect.Domain.Entities.Aggregates.PlayerProfile.PlayerProfile", b =>
+                {
+                    b.HasOne("TabletopConnect.Domain.Entities.IAM.User", null)
+                        .WithOne()
+                        .HasForeignKey("TabletopConnect.Domain.Entities.Aggregates.PlayerProfile.PlayerProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

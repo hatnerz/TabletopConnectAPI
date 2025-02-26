@@ -2,16 +2,15 @@
 
 namespace TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
-public class BoardGameMechanic : Entity<int>
+public class BoardGameMechanic : BoardGameRelatedClassifier<int>
 {
-    public int BoardGameId { get; private set; }
     public int MechanicId { get; private set; }
 
     private BoardGameMechanic()
     {
     }
 
-    public BoardGameMechanic(int gameId, int mechanicId)
+    public BoardGameMechanic(int gameId, int mechanicId) : base(gameId)
     {
         BoardGameId = gameId;
         MechanicId = mechanicId;

@@ -2,16 +2,15 @@
 
 namespace TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
-public class BoardGameSubcategory : Entity<int>
+public class BoardGameSubcategory : BoardGameRelatedClassifier<int>
 {
-    public int BoardGameId { get; set; }
     public int SubcategoryId { get; set; }
 
     private BoardGameSubcategory()
     {
     }
 
-    public BoardGameSubcategory(int gameId, int subcategoryId)
+    public BoardGameSubcategory(int gameId, int subcategoryId) : base(gameId)
     {
         BoardGameId = gameId;
         SubcategoryId = subcategoryId;

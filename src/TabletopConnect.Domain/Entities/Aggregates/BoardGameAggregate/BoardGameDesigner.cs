@@ -2,16 +2,15 @@
 
 namespace TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
-public class BoardGameDesigner : Entity<int>
+public class BoardGameDesigner : BoardGameRelatedClassifier<int>
 {
-    public int BoardGameId { get; private set; }
     public int DesignerId { get; private set; }
 
     private BoardGameDesigner()
     {
     }
 
-    public BoardGameDesigner(int gameId, int designerId)
+    public BoardGameDesigner(int gameId, int designerId) : base(gameId)
     {
         BoardGameId = gameId;
         DesignerId = designerId;

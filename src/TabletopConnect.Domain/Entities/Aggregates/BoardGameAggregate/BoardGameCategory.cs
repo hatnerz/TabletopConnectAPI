@@ -3,21 +3,19 @@ using TabletopConnect.Domain.Validators;
 
 namespace TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
-public class BoardGameCategory : Entity<int>
+public class BoardGameCategory : BoardGameRelatedClassifier<int>
 {
-    public int BoardGameId { get; set; }
-    public int CategoryId { get; set; }
-    public int? BggPosition { get; set; }
+    public int CategoryId { get; private set; }
+    public int? BggPosition { get; private set; }
 
     private BoardGameCategory()
     {
     }
 
-    public BoardGameCategory(int gameId, int categoryId, int? position = null)
+    public BoardGameCategory(int gameId, int categoryId, int? position = null) : base(gameId)
     {
         NumberValidators.ValidateRangeInclusive(position, 0, null, nameof(BggPosition));
 
-        BoardGameId = gameId;
         CategoryId = categoryId;
         BggPosition = position;
     }

@@ -4,9 +4,10 @@ namespace TabletopConnect.Application.Infrastucture.Interfaces;
 
 public interface IBoardGamesCsvImportService
 {
-    BoardGamesCsvResultDto GetBoardGamesInitialImportData(Stream csvStream);
-    //Task<BoardGamesCsvResultDto> GetMechanicsInitialImportDataAsync(Stream csvFileStream);
-    //Task<BoardGamesCsvResultDto> GetSubcategoriesInitialImportDataAsync(Stream csvFileStream);
-    //Task<BoardGamesCsvResultDto> GetThemesInitialImportDataAsync(Stream csvFileStream);
-    //Task<BoardGamesCsvResultDto> GetDesignersInitialImportDataAsync(Stream csvFileStream);
+    BoardGamesCsvResultDto GetBoardGamesImportedData(Stream csvStream);
+
+    ClassifiersWithRelationsCsvResultDto GetClassifiersWithRelationsImportedDataDefault(Stream csvFileStream);
+
+    ClassifiersWithRelationsCsvResultDto GetThemesImportedData(Stream csvFileStream);
+    
 }

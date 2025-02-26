@@ -3,37 +3,42 @@ using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using System.Globalization;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using TabletopConnect.Application.Infrastucture.Interfaces;
 using TabletopConnect.Application.Infrastucture.Interfaces.Dtos;
 using TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
+using TabletopConnect.Domain.Entities.Classifiers;
 using TabletopConnect.Infrastructure.DataImporters.Dtos;
 
 namespace TabletopConnect.Infrastructure.DataImporters;
 
 internal class BoardGamesCsvImportService : IBoardGamesCsvImportService
 {
-    public BoardGamesCsvResultDto GetBoardGamesInitialImportData(Stream csvStream)
+    private readonly CsvConfiguration csvReaderConfig = new(CultureInfo.InvariantCulture)
     {
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            Delimiter = ";",
-            MissingFieldFound = null
-        };
+        Delimiter = ";",
+        MissingFieldFound = null
+    };
+    private const string bggIdHeaderColumnName = "BGGId";
+    private const string categoryHeaderColumnPrefix = "Cat:";
+    private const string themeHeaderColumnPrefix = "Theme_";
 
+    public BoardGamesCsvResultDto GetBoardGamesImportedData(Stream csvStream)
+    {
         csvStream.Position = 0;
         if (csvStream == null || csvStream.Length == 0)
             throw new ArgumentException("CSV stream is empty.", nameof(csvStream));
 
 
         using var reader = new StreamReader(csvStream);
-        using var csv = new CsvReader(reader, config);
+        using var csv = new CsvReader(reader, csvReaderConfig);
         var records = new List<BoardGameCsvInputDto>();
 
         var categoriesProperties = typeof(BoardGameCsvInputDto)
             .GetProperties()
             .Where(prop => {
                 var attribute = prop.GetCustomAttribute<NameAttribute>();
-                return attribute != null && attribute.Names.Any(n => n.StartsWith("Cat:", StringComparison.OrdinalIgnoreCase));
+                return attribute != null && attribute.Names.Any(n => n.StartsWith(categoryHeaderColumnPrefix, StringComparison.OrdinalIgnoreCase));
             })
             .ToList();
 
@@ -109,9 +114,75 @@ internal class BoardGamesCsvImportService : IBoardGamesCsvImportService
         return new BoardGamesCsvResultDto(boardGames, families, categories, boardGameCategories);
     }
 
+    public ClassifiersWithRelationsCsvResultDto GetClassifiersWithRelationsImportedDataDefault(Stream csvStream)
+    {
+        return GetClassifiersWithRelationsImportedData(csvStream, null);
+    }
+
+    public ClassifiersWithRelationsCsvResultDto GetThemesImportedData(Stream csvStream)
+    {
+        return GetClassifiersWithRelationsImportedData(csvStream, GetThemeNameFromHeader);
+    }
+
+    private ClassifiersWithRelationsCsvResultDto GetClassifiersWithRelationsImportedData(
+        Stream csvStream,
+        Func<string, string>? classifierNameTransformSelector)
+    {
+        using var reader = new StreamReader(csvStream);
+        using var csv = new CsvReader(reader, csvReaderConfig);
+
+        csv.Read();
+        csv.ReadHeader();
+
+        if (csv.HeaderRecord == null)
+            throw new InvalidOperationException("CSV header is null.");
+
+        var classifierRecords = csv.HeaderRecord.Where(r => r != bggIdHeaderColumnName).ToList();
+        var classifiersDictionary = csv.HeaderRecord
+            .Select((name, index) => new { name, index })
+            .Where(r => r.name != bggIdHeaderColumnName)
+            .ToDictionary(x => x.index, x => x.name);
+
+        var classifierNames = classifierRecords;
+        if (classifierNameTransformSelector != null)
+        {
+            classifierNames = classifierNames.Select(classifierName => classifierNameTransformSelector(classifierName)).ToList();
+        }
+
+        var classifiers = classifierNames.Select(p => new ClassifierCsvReturnDto(p)).ToList();
+
+
+        var boardGameWithClassifiersRelations = new List<BoardGameClassifierRelationCsvReturnDto>();
+
+
+        while (csv.Read())
+        {
+            int gameIdFieldIndex = csv.GetFieldIndex("BGGId");
+            int gameId = csv.GetField<int>(gameIdFieldIndex);
+
+            for (int i = 0; i < csv.HeaderRecord.Length; i++)
+            {
+                if (i != gameIdFieldIndex && csv.GetField<int>(i) == 1)
+                {
+                    boardGameWithClassifiersRelations.Add(new(gameId, classifiersDictionary[i]));
+                }
+            }
+        }
+
+        return new(classifiers, boardGameWithClassifiersRelations);
+    }
+
     private static List<ClassifierCsvReturnDto> GetCategoriesFromImportedData(string[] headerRecords)
     {
-        var categories = headerRecords.Where(headerRecords => headerRecords.StartsWith("Cat:")).ToList();
+        var categories = headerRecords.Where(headerRecords => headerRecords.StartsWith(categoryHeaderColumnPrefix)).ToList();
         return categories.Select(c => new ClassifierCsvReturnDto(c.Split(":")[1])).ToList();
+    }
+
+    private static string GetThemeNameFromHeader(string header)
+    {
+        if (header.StartsWith(themeHeaderColumnPrefix))
+            return header.Replace(themeHeaderColumnPrefix, "");
+
+        return header;
     }
 }

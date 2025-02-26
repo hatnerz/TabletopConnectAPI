@@ -2,6 +2,7 @@
 using TabletopConnect.Persistence.Database;
 
 namespace TabletopConnect.Persistence.Repositories;
+
 internal class UnitOfWork : IUnitOfWork
 {
     private readonly TabletopDbContext _dbContext;

@@ -7,6 +7,10 @@ public class FavouriteGame : Entity<int>
     public int PlayerProfileId { get; set; }
     public int BoardGameId { get; set; }
 
+    private FavouriteGame()
+    {
+    }
+
     public FavouriteGame(int playerProfileId, int boardGameId)
     {
         PlayerProfileId = playerProfileId;

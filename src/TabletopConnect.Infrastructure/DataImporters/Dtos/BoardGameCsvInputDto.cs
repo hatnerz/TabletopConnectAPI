@@ -58,7 +58,7 @@ public class BoardGameCsvInputDto
     [Name("NumWeightVotes")]
     public int NumWeightVotes { get; set; }
 
-    [Name("MfgPlayTime")]
+    [Name("MfgPlaytime")]
     public int MfgPlayTime { get; set; }
 
     [Name("ComMinPlaytime")]

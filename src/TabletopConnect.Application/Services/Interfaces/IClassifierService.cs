@@ -10,9 +10,9 @@ public interface IClassifierService<TClassifier>
 
     Task<List<TClassifier>> GetAllReadonlyAsync(CancellationToken cancellationToken = default);
 
-    Task<ValidationResult> CreateAsync(string name, CancellationToken cancellationToken = default);
+    Task<ValidationResultDto> CreateAsync(string name, CancellationToken cancellationToken = default);
     
-    Task<ValidationResult> UpdateAsync(int id, string name, CancellationToken cancellationToken = default);
+    Task<ValidationResultDto> UpdateAsync(int id, string name, CancellationToken cancellationToken = default);
 
-    Task<ValidationResult> DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task<ValidationResultDto> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

@@ -7,7 +7,7 @@ public abstract class BaseClassifier<TKey> : SoftEntity<TKey>
 {
     public string Name { get; private set; } = null!;
 
-    private BaseClassifier()
+    protected BaseClassifier()
     {
     }
 
