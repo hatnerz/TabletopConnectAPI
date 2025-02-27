@@ -2,6 +2,6 @@
 
 namespace TabletopConnect.Application.Services.Interfaces;
 
-public interface ISubcategoriesService : IClassifierService<Category>
+public interface ISubcategoriesService : IClassifierService<Subcategory>
 {
 }

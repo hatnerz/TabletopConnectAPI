@@ -18,8 +18,8 @@ internal class ClassifiersRepository<TEntity, TKey> : Repository<TEntity, TKey>,
         return _set.Where(e => names.Contains(e.Name)).ToListAsync(cancellationToken);
     }
 
-    public Task<TEntity?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    public Task<TEntity?> GetByNameAsync(string name, TKey? excludeId, CancellationToken cancellationToken = default)
     {
-        return _set.FirstOrDefaultAsync(e => e.Name == name);
+        return _set.FirstOrDefaultAsync(e => e.Name == name && (excludeId == null || !e.Id.Equals(excludeId)));
     }
 }

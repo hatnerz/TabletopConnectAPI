@@ -8,10 +8,12 @@ namespace TabletopConnect.API.Middleware;
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public ExceptionHandlingMiddleware(RequestDelegate next)
+    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -26,7 +28,7 @@ public class ExceptionHandlingMiddleware
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         HttpStatusCode statusCode;
         string result;
@@ -38,14 +40,15 @@ public class ExceptionHandlingMiddleware
                 [new ValidationErrorDto(domainException.Message, domainException.FieldName)]));
         }
         else
-        { 
+        {
+            var message = "An unexpected error occurred";
             statusCode = HttpStatusCode.InternalServerError;
             result = System.Text.Json.JsonSerializer.Serialize(new
             {
-                error = "An unexpected error occurred: "
+                error = message
             });
 
-            // TODO: Add logging
+            _logger.LogError(exception, message);
         }
 
         context.Response.ContentType = "application/json";

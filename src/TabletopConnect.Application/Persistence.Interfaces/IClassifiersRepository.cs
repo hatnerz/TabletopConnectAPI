@@ -7,7 +7,7 @@ public interface IClassifiersRepository<TClassifier, TKey> : IRepository<TClassi
     where TClassifier : BaseClassifier<TKey>
     where TKey : struct
 {
-    Task<TClassifier?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+    Task<TClassifier?> GetByNameAsync(string name, TKey? excludeId, CancellationToken cancellationToken = default);
     
     Task<List<TClassifier>> GetAllByNamesAsynс(IEnumerable<string> names, CancellationToken cancellationToken = default);
 }

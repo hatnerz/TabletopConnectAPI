@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using TabletopConnect.Application.Infrastucture.Interfaces;
 using TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 using TabletopConnect.Domain.Entities.Classifiers;
+using TabletopConnect.Domain.Entities.Common;
 
 namespace TabletopConnect.Persistence.DataSeeders;
 
@@ -106,10 +107,10 @@ public class CsvDataSeeder
                 if (!gameDict.TryGetValue(gc.BggId, out var gameId))
                     return null;
 
-                if (!categoryDict.TryGetValue(gc.RelatedEntityName, out var categoryId))
+                if (!categoryDict.TryGetValue(gc.BoardGameCategoryName, out var categoryId))
                     return null;
 
-                return new BoardGameCategory(gameId, categoryId);
+                return new BoardGameCategory(gameId, categoryId, gc.Rank);
             })
             .Where(gc => gc != null)
             .ToList();
@@ -125,65 +126,34 @@ public class CsvDataSeeder
 
     public void SeedSubcategories()
     {
+        var subcategoriesPath = configuration["CsvFilePaths:Subcategories"] ?? "";
+        var pathResult = Path.Combine(basePath, subcategoriesPath);
 
+        SeedClassifierDefault<Subcategory, BoardGameSubcategory>(pathResult);
     }
 
     public void SeedDesigners()
     {
+        var designersPath = configuration["CsvFilePaths:Designers"] ?? "";
+        var pathResult = Path.Combine(basePath, designersPath);
 
+        SeedClassifierDefault<Designer, BoardGameDesigner>(pathResult);
     }
 
     public void SeedMechanics()
     {
+        var mechanicsPath = configuration["CsvFilePaths:Mechanics"] ?? "";
+        var pathResult = Path.Combine(basePath, mechanicsPath);
 
+        SeedClassifierDefault<Mechanics, BoardGameMechanic>(pathResult);
     }
 
     public void SeedPublishers()
     {
-        if (context.Set<Publisher>().Any())
-            return;
-
         var publishersPath = configuration["CsvFilePaths:Publishers"] ?? "";
         var pathResult = Path.Combine(basePath, publishersPath);
 
-        if (!File.Exists(pathResult))
-        {
-            throw new FileNotFoundException($"Publishers CSV file not found. Path: {pathResult}");
-        }
-
-        using var publisherFileStream = File.OpenRead(pathResult);
-        var publishersData = importService.GetClassifiersWithRelationsImportedDataDefault(publisherFileStream);
-
-        var publishers = publishersData.Classifiers
-            .Select(p => new Publisher(p.Name))
-            .ToList();
-
-        context.Set<Publisher>().AddRange(publishers);
-        context.SaveChanges();
-
-        var games = context.Set<BoardGame>()
-            .Where(g => g.BggData != null)
-            .ToDictionary(g => g.BggData!.BggId, g => g.Id);
-
-        var publishersDict = publishers
-            .ToDictionary(p => p.Name, p => p.Id);
-
-        var gamePublishers = publishersData.BoardGameWithClassfierRelations
-            .Select(gp =>
-            {
-                if (!games.TryGetValue(gp.BggId, out var gameId))
-                    return null;
-
-                if (!publishersDict.TryGetValue(gp.RelatedEntityName, out var publisherId))
-                    return null;
-
-                return new BoardGamePublisher(gameId, publisherId);
-            })
-            .Where(gp => gp != null)
-            .ToList();
-
-        context.Set<BoardGamePublisher>().AddRange(gamePublishers!);
-        context.SaveChanges();
+        SeedClassifierDefault<Publisher, BoardGamePublisher>(pathResult);
     }
 
     public void SeedThemes()
@@ -200,13 +170,13 @@ public class CsvDataSeeder
         }
 
         using var themesFileStream = File.OpenRead(pathResult);
-        var themesData = importService.GetClassifiersWithRelationsImportedDataDefault(themesFileStream);
+        var themesData = importService.GetThemesImportedData(themesFileStream);
 
         var themes = themesData.Classifiers
-            .Select(p => new Publisher(p.Name))
+            .Select(p => new Theme(p.Name))
             .ToList();
 
-        context.Set<Publisher>().AddRange(themes);
+        context.Set<Theme>().AddRange(themes);
         context.SaveChanges();
 
         var games = context.Set<BoardGame>()
@@ -233,4 +203,54 @@ public class CsvDataSeeder
         context.Set<BoardGameTheme>().AddRange(gameThemes!);
         context.SaveChanges();
     }
+
+    private void SeedClassifierDefault<TClassifier, TRelatedClassifier>(
+        string filePath)
+        where TClassifier : BaseClassifier<int>
+        where TRelatedClassifier : BoardGameRelatedClassifier<int>
+    {
+        if (context.Set<TClassifier>().Any())
+            return;
+
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException($"{typeof(TClassifier).Name} CSV file not found. Path: {filePath}");
+        }
+
+        using var fileStream = File.OpenRead(filePath);
+        var classifiersData = importService.GetClassifiersWithRelationsImportedDataDefault(fileStream);
+
+        var classifiers = classifiersData.Classifiers
+            .Select(c => (TClassifier?)Activator.CreateInstance(typeof(TClassifier), c.Name))
+            .Where(c => c != null)
+            .ToList();
+
+        context.Set<TClassifier>().AddRange(classifiers!);
+        context.SaveChanges();
+
+        var games = context.Set<BoardGame>()
+            .Where(g => g.BggData != null)
+            .ToDictionary(g => g.BggData!.BggId, g => g.Id);
+
+        var classifiersDict = classifiers
+            .ToDictionary(p => p.Name, p => p.Id);
+
+        var relatedClassifiers = classifiersData.BoardGameWithClassfierRelations
+            .Select(gp =>
+            {
+                if (!games.TryGetValue(gp.BggId, out var gameId))
+                    return null;
+
+                if (!classifiersDict.TryGetValue(gp.RelatedEntityName, out var relatedEntityId))
+                    return null;
+
+                return (TRelatedClassifier?)Activator.CreateInstance(typeof(TRelatedClassifier), gameId, relatedEntityId);
+            })
+            .Where(rc => rc != null)
+            .ToList();
+
+        context.Set<TRelatedClassifier>().AddRange(relatedClassifiers!);
+        context.SaveChanges();
+    }
+
 }

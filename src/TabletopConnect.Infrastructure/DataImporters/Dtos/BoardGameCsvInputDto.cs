@@ -100,29 +100,29 @@ public class BoardGameCsvInputDto
     [Name("Rank:boardgame")]
     public int RankBoardGame { get; set; }
 
-    [Name("Rank:strategygames")]
-    public int RankStrategyGames { get; set; }
+    [Name("Rank:Strategy")]
+    public int? RankStrategyGames { get; set; }
 
-    [Name("Rank:abstracts")]
-    public int RankAbstracts { get; set; }
+    [Name("Rank:Abstract")]
+    public int? RankAbstracts { get; set; }
 
-    [Name("Rank:familygames")]
-    public int RankFamilyGames { get; set; }
+    [Name("Rank:Family")]
+    public int? RankFamilyGames { get; set; }
 
-    [Name("Rank:thematic")]
-    public int RankThematic { get; set; }
+    [Name("Rank:Thematic")]
+    public int? RankThematic { get; set; }
 
-    [Name("Rank:cgs")]
-    public int RankCgs { get; set; }
+    [Name("Rank:CardGame")]
+    public int? RankCgs { get; set; }
 
-    [Name("Rank:wargames")]
-    public int RankWarGames { get; set; }
+    [Name("Rank:WarGame")]
+    public int? RankWarGames { get; set; }
 
-    [Name("Rank:partygames")]
-    public int RankPartyGames { get; set; }
+    [Name("Rank:Party")]
+    public int? RankPartyGames { get; set; }
 
-    [Name("Rank:childrensgames")]
-    public int RankChildrensGames { get; set; }
+    [Name("Rank:Childrens")]
+    public int? RankChildrensGames { get; set; }
 
     [Name("Cat:Thematic")]
     public bool CatThematic { get; set; }

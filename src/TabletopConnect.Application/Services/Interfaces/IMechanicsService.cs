@@ -2,6 +2,6 @@
 
 namespace TabletopConnect.Application.Services.Interfaces;
 
-public interface IMechanicsService : IClassifierService<Category>
+public interface IMechanicsService : IClassifierService<Mechanics>
 {
 }

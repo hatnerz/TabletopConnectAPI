@@ -6,4 +6,4 @@ public record BoardGamesCsvResultDto(
     List<BoardGameCsvReturnDto> BoardGames,
     List<ClassifierCsvReturnDto> Families,
     List<ClassifierCsvReturnDto> Categories,
-    List<BoardGameClassifierRelationCsvReturnDto> BoardGameCategories);
+    List<BoardGameCategoryRelationCsvReturnDto> BoardGameCategories);

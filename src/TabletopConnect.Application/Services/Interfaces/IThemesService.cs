@@ -2,6 +2,6 @@
 
 namespace TabletopConnect.Application.Services.Interfaces;
 
-public interface IThemesService : IClassifierService<Category>
+public interface IThemesService : IClassifierService<Theme>
 {
 }

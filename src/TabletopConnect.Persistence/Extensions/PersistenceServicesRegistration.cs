@@ -34,12 +34,12 @@ public static class PersistenceServicesRegistration
 
                     var seeder = new CsvDataSeeder(configuration, importService, context);
 
-                    //seeder.SeedBoardGameWithCategories();
-                    //seeder.SeedDesigners();
-                    //seeder.SeedMechanics();
-                    //seeder.SeedSubcategories();
-                    //seeder.SeedPublishers();
-                    //seeder.SeedThemes();
+                    seeder.SeedBoardGameWithCategories();
+                    seeder.SeedDesigners();
+                    seeder.SeedMechanics();
+                    seeder.SeedSubcategories();
+                    seeder.SeedPublishers();
+                    seeder.SeedThemes();
                 });
         });
 

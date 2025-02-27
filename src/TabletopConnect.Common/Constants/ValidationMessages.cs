@@ -13,10 +13,10 @@ public static class ValidationMessages
             => $"{entityName.MakeFirstLetterUppercase()} with this {propertyName.MakeFirstLetterLowercase()}{(propertyValue == "" ? "" : " ")}{propertyValue} already exists.";
 
         public static string EntityNotExists(string entityName)
-            => $"Such {entityName.MakeFirstLetterUppercase()} does not exist.";
+            => $"Such {entityName.MakeFirstLetterLowercase()} does not exist.";
 
         public static string EntityNotExists(string entityName, string propertyName, string? propertyValue = "") 
-            => $"{entityName.MakeFirstLetterUppercase()} with {propertyName.MakeFirstLetterLowercase()} {propertyValue} does not exist.";
+            => $"{entityName.MakeFirstLetterUppercase()} with {propertyName.MakeFirstLetterLowercase()}{(propertyValue == "" ? "" : " ")}{propertyValue} does not exist.";
     
         //public static string 
     }

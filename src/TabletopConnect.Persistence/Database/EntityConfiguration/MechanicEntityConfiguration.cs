@@ -5,9 +5,9 @@ using TabletopConnect.Domain.Entities.Classifiers;
 
 namespace TabletopConnect.Persistence.Database.EntityConfiguration;
 
-internal class MechanicEntityConfiguration : IdentifiableEntityConfiguration<Mechanic, int>
+internal class MechanicEntityConfiguration : IdentifiableEntityConfiguration<Mechanics, int>
 {
-    public override void Configure(EntityTypeBuilder<Mechanic> builder)
+    public override void Configure(EntityTypeBuilder<Mechanics> builder)
     {
         builder.ToTable("Mechanics");
 

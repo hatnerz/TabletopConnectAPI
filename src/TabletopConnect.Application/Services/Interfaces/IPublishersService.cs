@@ -2,6 +2,6 @@
 
 namespace TabletopConnect.Application.Services.Interfaces;
 
-public interface IPublishersService : IClassifierService<Category>
+public interface IPublishersService : IClassifierService<Publisher>
 {
 }

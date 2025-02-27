@@ -21,6 +21,7 @@ internal class BoardGamesCsvImportService : IBoardGamesCsvImportService
     };
     private const string bggIdHeaderColumnName = "BGGId";
     private const string categoryHeaderColumnPrefix = "Cat:";
+    private const string rankHeaderColumnName = "Rank:";
     private const string themeHeaderColumnPrefix = "Theme_";
 
     public BoardGamesCsvResultDto GetBoardGamesImportedData(Stream csvStream)
@@ -41,6 +42,13 @@ internal class BoardGamesCsvImportService : IBoardGamesCsvImportService
                 return attribute != null && attribute.Names.Any(n => n.StartsWith(categoryHeaderColumnPrefix, StringComparison.OrdinalIgnoreCase));
             })
             .ToList();
+
+        var rankProperties = typeof(BoardGameCsvInputDto)
+            .GetProperties()
+            .Where(prop => {
+                var attribute = prop.GetCustomAttribute<NameAttribute>();
+                return attribute != null && attribute.Names.Any(n => n.StartsWith(rankHeaderColumnName, StringComparison.OrdinalIgnoreCase));
+            });
 
         csv.Read();
 
@@ -101,13 +109,18 @@ internal class BoardGamesCsvImportService : IBoardGamesCsvImportService
                     var gameInCategory = (bool)p.GetValue(r)!;
                     return gameInCategory;
                 })
-                .Select(p => new BoardGameClassifierRelationCsvReturnDto(
+                .Select(p => new BoardGameCategoryRelationCsvReturnDto(
                     r.BggId,
                     (categories.FirstOrDefault(
-                        c => $"Cat:{c.Name}" == (
+                        c => $"{categoryHeaderColumnPrefix}{c.Name}" == (
                             p.GetCustomAttribute<NameAttribute>()?
                             .Names
-                            .FirstOrDefault(n => n.StartsWith("Cat:", StringComparison.OrdinalIgnoreCase))))?.Name) ?? ""));
+                            .FirstOrDefault(n => n.StartsWith(categoryHeaderColumnPrefix, StringComparison.OrdinalIgnoreCase))))?.Name) ?? "",
+                    rankProperties.FirstOrDefault(
+                        rankProp => rankProp.GetCustomAttribute<NameAttribute>()?
+                            .Names.FirstOrDefault(n => n.StartsWith(rankHeaderColumnName, StringComparison.OrdinalIgnoreCase))?.Replace(rankHeaderColumnName, "") 
+                                == p.GetCustomAttribute<NameAttribute>()?.Names.FirstOrDefault(n => n.StartsWith(categoryHeaderColumnPrefix, StringComparison.OrdinalIgnoreCase))?.Replace(categoryHeaderColumnPrefix, ""))
+                        ?.GetValue(r) as int? ?? 0));
             })
             .ToList();
 
