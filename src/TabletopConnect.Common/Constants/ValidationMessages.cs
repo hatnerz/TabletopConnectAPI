@@ -17,7 +17,5 @@ public static class ValidationMessages
 
         public static string EntityNotExists(string entityName, string propertyName, string? propertyValue = "") 
             => $"{entityName.MakeFirstLetterUppercase()} with {propertyName.MakeFirstLetterLowercase()}{(propertyValue == "" ? "" : " ")}{propertyValue} does not exist.";
-    
-        //public static string 
     }
 }

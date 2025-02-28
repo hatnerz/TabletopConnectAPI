@@ -16,5 +16,6 @@ public static class ApplicationServicesRegistration
         services.AddScoped<IMechanicsService, MechanicsService>();
         services.AddScoped<ISubcategoriesService, SubcategoriesService>();
         services.AddScoped<IThemesService, ThemesService>();
+        services.AddScoped<IBoardGamesService, BoardGamesService>();
     }
 }

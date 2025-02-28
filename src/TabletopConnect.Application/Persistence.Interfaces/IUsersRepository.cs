@@ -6,7 +6,7 @@ namespace TabletopConnect.Application.Persistence.Interfaces;
 
 public interface IUsersRepository : IRepository<User, int>
 {
-    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
-    Task<User?> GetByGoogleIdAsync(string googleId, CancellationToken cancellationToken);
-    Task<PlayerProfile?> GetLinkedPlayerProfile(int userId, CancellationToken cancellationToken);
+    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
+    Task<User?> GetByGoogleIdAsync(string googleId, CancellationToken cancellationToken = default);
+    Task<PlayerProfile?> GetLinkedPlayerProfile(int userId, CancellationToken cancellationToken = default);
 }
