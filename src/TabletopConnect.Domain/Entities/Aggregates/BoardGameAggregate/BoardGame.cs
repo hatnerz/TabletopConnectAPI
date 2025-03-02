@@ -8,7 +8,7 @@ public class BoardGame : SoftEntity<int>
     private readonly List<BoardGameCategory> _boardGameCategories = new();
     private readonly List<BoardGameSubcategory> _boardGameSubcategories = new();
     private readonly List<BoardGameDesigner> _boardGameDesigners = new();
-    private readonly List<BoardGameMechanic> _boardGameMechanics = new();
+    private readonly List<BoardGameMechanics> _boardGameMechanics = new();
     private readonly List<BoardGamePublisher> _boardGamePublishers = new();
     private readonly List<BoardGameTheme> _boardGameThemes = new();
 
@@ -29,7 +29,7 @@ public class BoardGame : SoftEntity<int>
     public IReadOnlyCollection<BoardGameCategory> BoardGameCategories => _boardGameCategories.AsReadOnly();
     public IReadOnlyCollection<BoardGameSubcategory> BoardGameSubcategories => _boardGameSubcategories.AsReadOnly();
     public IReadOnlyCollection<BoardGameDesigner> BoardGameDesigners => _boardGameDesigners.AsReadOnly();
-    public IReadOnlyCollection<BoardGameMechanic> BoardGameMechanics => _boardGameMechanics.AsReadOnly();
+    public IReadOnlyCollection<BoardGameMechanics> BoardGameMechanics => _boardGameMechanics.AsReadOnly();
     public IReadOnlyCollection<BoardGamePublisher> BoardGamePublishers => _boardGamePublishers.AsReadOnly();
     public IReadOnlyCollection<BoardGameTheme> BoardGameThemes => _boardGameThemes.AsReadOnly();
 

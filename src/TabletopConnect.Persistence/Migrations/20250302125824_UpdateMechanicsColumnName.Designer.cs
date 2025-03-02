@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TabletopConnect.Persistence.Database;
 
@@ -10,9 +11,11 @@ using TabletopConnect.Persistence.Database;
 namespace TabletopConnect.Persistence.Migrations
 {
     [DbContext(typeof(TabletopDbContext))]
-    partial class TabletopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250302125824_UpdateMechanicsColumnName")]
+    partial class UpdateMechanicsColumnName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

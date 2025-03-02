@@ -33,5 +33,9 @@ public class ApiMappingProfile : Profile
 
         CreateMap<BoardGameSummaryReturnDto, BoardGameSummaryResponse>();
         CreateMap<BoardGamesPaginationReturnDto, BoardGamesPaginationResponse>();
+
+        CreateMap<CategoryWithPositionReturnDto, CategoryWithPositionResponse>();
+        CreateMap<BoardGameReturnDto, BoardGameResponse>();
+        CreateMap<BoardGameDetailsReturnDto, BoardGameDetailsResponse>();
     }
 }

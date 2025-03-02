@@ -4,9 +4,9 @@ using TabletopConnect.Domain.Entities.Aggregates.BoardGameAggregate;
 
 namespace TabletopConnect.Persistence.Database.EntityConfiguration;
 
-internal class BoardGameMechanicEntityConfiguration : IdentifiableEntityConfiguration<BoardGameMechanic, int>
+internal class BoardGameMechanicEntityConfiguration : IdentifiableEntityConfiguration<BoardGameMechanics, int>
 {
-    public override void Configure(EntityTypeBuilder<BoardGameMechanic> builder)
+    public override void Configure(EntityTypeBuilder<BoardGameMechanics> builder)
     {
         builder.ToTable("BoardGameMechanics");
 

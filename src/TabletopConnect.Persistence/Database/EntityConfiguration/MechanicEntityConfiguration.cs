@@ -13,9 +13,9 @@ internal class MechanicEntityConfiguration : IdentifiableEntityConfiguration<Mec
 
         base.Configure(builder);
 
-        builder.HasMany<BoardGameMechanic>()
+        builder.HasMany<BoardGameMechanics>()
             .WithOne()
-            .HasForeignKey(bgm => bgm.MechanicId)
+            .HasForeignKey(bgm => bgm.MechanicsId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

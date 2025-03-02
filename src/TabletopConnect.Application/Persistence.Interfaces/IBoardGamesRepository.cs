@@ -7,7 +7,7 @@ namespace TabletopConnect.Application.Persistence.Interfaces;
 
 public interface IBoardGamesRepository : IRepository<BoardGame, int>
 {
-    public Task<BoardGameDetails> GetBoardGameDetailsAsync(int id, CancellationToken cancellationToken = default);
+    public Task<BoardGameDetails?> GetBoardGameDetailsAsync(int id, CancellationToken cancellationToken = default);
 
     public Task<(List<BoardGameSummary>, int)> GetPagedBoardGamesAsync(
         BoardGamesFilterDto? filter,

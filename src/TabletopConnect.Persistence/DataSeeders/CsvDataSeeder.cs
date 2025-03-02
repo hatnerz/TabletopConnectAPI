@@ -145,7 +145,7 @@ public class CsvDataSeeder
         var mechanicsPath = configuration["CsvFilePaths:Mechanics"] ?? "";
         var pathResult = Path.Combine(basePath, mechanicsPath);
 
-        SeedClassifierDefault<Mechanics, BoardGameMechanic>(pathResult);
+        SeedClassifierDefault<Mechanics, BoardGameMechanics>(pathResult);
     }
 
     public void SeedPublishers()

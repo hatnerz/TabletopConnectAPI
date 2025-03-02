@@ -5,9 +5,14 @@ namespace TabletopConnect.Application.Persistence.Interfaces.Dtos.BoardGames;
 
 public record BoardGameDetails(
     BoardGame BoardGame,
-    List<Category> Categories,
+    List<CategoryWithPosition> Categories,
     List<Designer> Designers,
     List<Mechanics> Mechanics,
     List<Publisher> Publishers,
     List<Subcategory> Subcategories,
-    List<Theme> Themes);
+    List<Theme> Themes,
+    Family? Family);
+
+public record CategoryWithPosition(
+    int? Position,
+    Category Category);

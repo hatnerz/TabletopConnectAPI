@@ -31,4 +31,12 @@ public class BoardGamesController : ControllerBase
         var result = await _boardGamesService.GetBoardGamesSummaryAsync(dto, cancellation);
         return Ok(_mapper.Map<BoardGamesPaginationResponse>(result));
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetBoardGame(
+        int id, CancellationToken cancellation)
+    {
+        var result = await _boardGamesService.GetBoardGameDetails(id, cancellation);
+        return Ok(_mapper.Map<BoardGameDetailsResponse>(result));
+    }
 }
