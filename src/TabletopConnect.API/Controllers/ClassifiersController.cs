@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TabletopConnect.API.Controllers.Dtos.Classifiers;
 using TabletopConnect.API.Controllers.Dtos.Common;
@@ -7,6 +8,7 @@ using TabletopConnect.Application.Services.Interfaces;
 namespace TabletopConnect.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class ClassifiersController : ControllerBase
 {

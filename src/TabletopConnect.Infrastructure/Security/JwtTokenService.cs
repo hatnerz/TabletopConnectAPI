@@ -17,7 +17,7 @@ internal class JwtTokenService : IJwtTokenService
         _config = config;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateToken(User user, int playerProfileId)
     {
         var secret = _config["Jwt:Secret"];
         if (secret == null)
@@ -30,6 +30,7 @@ internal class JwtTokenService : IJwtTokenService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim("PlayerProfileId", playerProfileId.ToString()),
             new Claim(ClaimTypes.Role, user.Role.ToString())
         };
 

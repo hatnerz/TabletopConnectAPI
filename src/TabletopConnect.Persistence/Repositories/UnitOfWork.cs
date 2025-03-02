@@ -1,4 +1,5 @@
-﻿using TabletopConnect.Application.Persistence.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TabletopConnect.Application.Persistence.Interfaces;
 using TabletopConnect.Persistence.Database;
 
 namespace TabletopConnect.Persistence.Repositories;
@@ -12,8 +13,15 @@ internal class UnitOfWork : IUnitOfWork
         _dbContext = dbContext;
     }
 
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return _dbContext.SaveChangesAsync(cancellationToken);
+        try
+        {
+            return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
     }
 }

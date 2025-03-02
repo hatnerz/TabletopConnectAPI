@@ -15,5 +15,6 @@ public static class InfrastructureServicesRegistration
         services.AddScoped<IGoogleAuthService, GoogleAuthService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
     }
 }

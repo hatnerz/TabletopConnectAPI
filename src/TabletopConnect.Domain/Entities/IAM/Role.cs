@@ -2,8 +2,8 @@
 
 public enum Role
 {
-    Admin,
-    Moderator,
-    RegularUser,
-    ClubOwner
+    Admin = 0,
+    Moderator = 1,
+    RegularUser = 2,
+    ClubOwner = 3
 }

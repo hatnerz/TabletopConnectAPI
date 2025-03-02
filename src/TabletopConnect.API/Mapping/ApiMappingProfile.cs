@@ -16,7 +16,6 @@ public class ApiMappingProfile : Profile
     public ApiMappingProfile()
     {
         CreateMap<AuthRequest, AuthDto>();
-        CreateMap<LinkGoogleRequest, LinkGoogleDto>();
 
         CreateMap<Category, ClassifierItemResponse>();
         CreateMap<Designer, ClassifierItemResponse>();

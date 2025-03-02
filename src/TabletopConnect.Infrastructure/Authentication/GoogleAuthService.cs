@@ -23,6 +23,5 @@ internal class GoogleAuthService : IGoogleAuthService
         {
             return null;
         }
-
     }
 }

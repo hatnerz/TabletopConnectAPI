@@ -5,6 +5,8 @@ using TabletopConnect.API.Controllers.Dtos.Auth;
 using AutoMapper;
 using TabletopConnect.Application.Services.Dtos.Users;
 using TabletopConnect.API.Controllers.Dtos.Common;
+using System.Security.Claims;
+using TabletopConnect.Infrastructure.Authentication;
 namespace TabletopConnect.API.Controllers;
 
 [Route("api/[controller]")]
@@ -12,11 +14,16 @@ namespace TabletopConnect.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IUsersService _usersService;
+    private readonly ICurrentUserService _currentUserService;
     private readonly IMapper _mapper;
 
-    public AuthController(IUsersService usersService, IMapper mapper)
+    public AuthController(
+        IUsersService usersService,
+        ICurrentUserService currentUserService,
+        IMapper mapper)
     {
         _usersService = usersService;
+        _currentUserService = currentUserService;
         _mapper = mapper;
     }
 
@@ -59,7 +66,14 @@ public class AuthController : ControllerBase
     [HttpPost("link-google")]
     public async Task<IActionResult> LinkGoogle([FromBody] LinkGoogleRequest model, CancellationToken cancellation)
     {
-        var linkDto = _mapper.Map<LinkGoogleDto>(model);
+        var currentUser = _currentUserService.GetCurrentUser();
+
+        if (currentUser == null)
+            return Unauthorized();
+
+        var linkDto = new LinkGoogleDto(
+            currentUser.UserId,
+            model.GoogleToken);
         var linkResult = await _usersService.LinkGoogleAccountAsync(linkDto, cancellation);
 
         if (!linkResult.Success)

@@ -49,6 +49,7 @@ public static class PersistenceServicesRegistration
         services.AddScoped(typeof(IBoardGameRelatedClassifierRepository<,>), typeof(BoardGameRelatedClassifierRepository<,>));
         services.AddScoped<IUsersRepository, UsersRepository>();
         services.AddScoped<IPlayerProfilesRepository, PlayerProfilesRepository>();
+        services.AddScoped<IFavouriteGamesRepository, FavouriteGamesRepository>();
 
         return services;
     }

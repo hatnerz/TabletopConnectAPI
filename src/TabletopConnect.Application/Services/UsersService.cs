@@ -65,12 +65,16 @@ public class UsersService : IUsersService
         if (user == null || string.IsNullOrEmpty(user.PasswordHash))
             return new AuthResultDto(null);
 
+        var playerProfile = await _userRepository.GetLinkedPlayerProfile(user.Id, cancellationToken);
+        if (playerProfile == null)
+            return new AuthResultDto(null);
+
         var result = _passwordHasher.VerifyPassword(user.PasswordHash, dto.Password);
 
         if (!result)
             return new AuthResultDto(null);
 
-        var token = _jwtTokenService.GenerateToken(user);
+        var token = _jwtTokenService.GenerateToken(user, playerProfile.Id);
 
         return new AuthResultDto(token);
     }
@@ -82,7 +86,15 @@ public class UsersService : IUsersService
         if (googleUser == null)
             return new AuthResultDto(null);
 
+        var emailUser = await _userRepository.GetByEmailAsync(googleUser.Email, cancellationToken);
         var user = await _userRepository.GetByGoogleIdAsync(googleUser.GoogleId, cancellationToken);
+
+        if (emailUser != null && user == null)
+            return new AuthResultDto(null);
+
+        if (emailUser != null && user != null && emailUser.Id != user.Id)
+            return new AuthResultDto(null);
+
         if (user == null)
         {
             user = User.RegisterGoogle(googleUser.Email, googleUser.EmailVerified, googleUser.GoogleId);
@@ -96,7 +108,8 @@ public class UsersService : IUsersService
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        var jwtToken = _jwtTokenService.GenerateToken(user);
+        var linkedPlayerProfile = await _userRepository.GetLinkedPlayerProfile(user.Id, cancellationToken);
+        var jwtToken = _jwtTokenService.GenerateToken(user, linkedPlayerProfile!.Id);
 
         return new AuthResultDto(jwtToken);
     }

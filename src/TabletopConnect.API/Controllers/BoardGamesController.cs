@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TabletopConnect.API.Controllers.Dtos.BoardGames;
 using TabletopConnect.Application.Persistence.Interfaces.Dtos.BoardGames;
@@ -9,6 +10,7 @@ using TabletopConnect.Common.Enums;
 namespace TabletopConnect.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class BoardGamesController : ControllerBase
 {

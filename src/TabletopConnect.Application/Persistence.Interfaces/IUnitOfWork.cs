@@ -2,7 +2,7 @@
 
 public interface IUnitOfWork
 {
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     // TODO ADD Transactions
 }
