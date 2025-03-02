@@ -18,6 +18,23 @@ internal class BoardGameEntityConfiguration : IdentifiableEntityConfiguration<Bo
         builder.Property(e => e.GameComplexity)
             .HasPrecision(18, 2);
 
+        builder.Navigation(e => e.BoardGameCategories)
+            .AutoInclude();
+
+        builder.Navigation(e => e.BoardGameMechanics)
+            .AutoInclude();
+
+        builder.Navigation(e => e.BoardGameDesigners)
+            .AutoInclude();
+
+        builder.Navigation(e => e.BoardGamePublishers)
+            .AutoInclude();
+
+        builder.Navigation(e => e.BoardGameSubcategories)
+            .AutoInclude();
+
+        builder.Navigation(e => e.BoardGameThemes)
+            .AutoInclude();
 
         builder.OwnsOne(e => e.BggData, bggData =>
         {

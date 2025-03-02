@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TabletopConnect.API.Controllers.Dtos.BoardGames;
+using TabletopConnect.Application.Persistence.Interfaces;
 using TabletopConnect.Application.Persistence.Interfaces.Dtos.BoardGames;
 using TabletopConnect.Application.Services.Dtos.BoardGames;
 using TabletopConnect.Application.Services.Interfaces;
+using TabletopConnect.Application.Services.Recommendations;
 using TabletopConnect.Common.Enums;
 
 namespace TabletopConnect.API.Controllers;
@@ -14,13 +16,16 @@ namespace TabletopConnect.API.Controllers;
 [ApiController]
 public class BoardGamesController : ControllerBase
 {
+    private readonly IBoardGamesRepository _boardGamesRepository;
     private readonly IBoardGamesService _boardGamesService;
     private readonly IMapper _mapper;
 
     public BoardGamesController(
+        IBoardGamesRepository boardGamesRepository,
         IBoardGamesService boardGamesService,
         IMapper mapper)
     {
+        _boardGamesRepository = boardGamesRepository;
         _boardGamesService = boardGamesService;
         _mapper = mapper;
     }
@@ -40,5 +45,14 @@ public class BoardGamesController : ControllerBase
     {
         var result = await _boardGamesService.GetBoardGameDetails(id, cancellation);
         return Ok(_mapper.Map<BoardGameDetailsResponse>(result));
+    }
+
+    [HttpGet("recommendations")]
+    public async Task<IActionResult> GetRecommendedBoardGames()
+    {
+        var games = await _boardGamesRepository.GetAllReadonlyAsync();
+        var service = new BoardGamesRecommendationsService(games);
+        var result = service.RecommendGames([15361], 100);
+        return Ok(result);
     }
 }

@@ -79,7 +79,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        //options.ConfigObject
+        options.ConfigObject.PersistAuthorization = true;
     });
 }
 
