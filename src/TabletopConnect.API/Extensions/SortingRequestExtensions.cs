@@ -10,7 +10,7 @@ public static class SortingRequestExtensions
     {
         return request.GetType()
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Where(p => p.PropertyType == typeof(SortingDirection))
+            .Where(p => p.PropertyType == typeof(SortingDirection?) && p.GetValue(request) != null)
             .Select(p => (p.Name, (SortingDirection)p.GetValue(request)!))
             .ToList();
     }

@@ -34,10 +34,20 @@ internal class BoardGamesRepository : Repository<BoardGame, int>, IBoardGamesRep
         if (filter is not null)
         {
             query = query.Where(g => filter.CategoryIds == null || !filter.CategoryIds.Any() || g.BoardGameCategories.Any(bgc => filter.CategoryIds.Contains(bgc.CategoryId)));
+            query = query.Where(g => filter.ThemeIds == null || !filter.ThemeIds.Any() || g.BoardGameThemes.Any(bgt => filter.ThemeIds.Contains(bgt.ThemeId)));
+            query = query.Where(g => filter.MechanicsIds == null || !filter.MechanicsIds.Any() || g.BoardGameMechanics.Any(bgm => filter.MechanicsIds.Contains(bgm.MechanicId)));
+            query = query.Where(g => filter.FamiliesIds == null || !filter.FamiliesIds.Any() || (g.FamilyId != null && filter.FamiliesIds.Contains(g.FamilyId.Value)));
+            query = query.Where(g => filter.LanguageDependence == null || g.LanguageDependence == filter.LanguageDependence);
+            query = query.Where(g => filter.MinPlayTime == null || ((g.PlayTime.CommunityMinPlayTime ?? g.PlayTime.ManufacturerStatedPlayTime) <= filter.MinPlayTime));
+            query = query.Where(g => filter.MaxPlayTime == null || ((g.PlayTime.CommunityMaxPlayTime ?? g.PlayTime.ManufacturerStatedPlayTime) >= filter.MaxPlayTime));
+            query = query.Where(g => filter.Players == null || g.Players.MinPlayers <= filter.Players && g.Players.MaxPlayers >= filter.Players);
         }
 
         var groupedQuery =
             from game in query
+            join family in _context.Set<Family>()
+                on game.FamilyId equals family.Id into families
+            from family in families.DefaultIfEmpty()
             join bgc in _context.Set<BoardGameCategory>()
                 on game.Id equals bgc.BoardGameId into gameCategories
             from bgc in gameCategories.DefaultIfEmpty()
@@ -51,6 +61,14 @@ internal class BoardGamesRepository : Repository<BoardGame, int>, IBoardGamesRep
                 game.Description,
                 game.YearPublished,
                 game.ImagePath,
+                game.Players.MinPlayers,
+                game.Players.MaxPlayers,
+                game.GameComplexity,
+                game.LanguageDependence,
+                MinPlayTime = game.PlayTime.CommunityMinPlayTime ?? game.PlayTime.ManufacturerStatedPlayTime, 
+                MaxPlayTime = game.PlayTime.CommunityMaxPlayTime ?? game.PlayTime.ManufacturerStatedPlayTime,
+                FamilyId = (int?)family.Id,
+                FamilyName = (string?)family.Name,
                 BggRank = (int?)(game.BggData != null ? game.BggData!.RankOverall : null),
                 BggScore = (double?)(game.BggData != null ? game.BggData!.AverageRating : null)
             }
@@ -62,6 +80,14 @@ internal class BoardGamesRepository : Repository<BoardGame, int>, IBoardGamesRep
                 grouped.Key.Description,
                 grouped.Key.YearPublished,
                 grouped.Key.ImagePath,
+                grouped.Key.MinPlayers,
+                grouped.Key.MaxPlayers,
+                grouped.Key.GameComplexity,
+                grouped.Key.LanguageDependence,
+                grouped.Key.MinPlayTime,
+                grouped.Key.MaxPlayTime,
+                grouped.Key.FamilyId,
+                grouped.Key.FamilyName,
                 grouped.Key.BggRank,
                 grouped.Key.BggScore,
                 Categories = grouped.Where(c => c != null).ToList()
@@ -86,6 +112,13 @@ internal class BoardGamesRepository : Repository<BoardGame, int>, IBoardGamesRep
                 e.BggRank,
                 e.BggScore,
                 e.ImagePath,
+                e.MinPlayers,
+                e.MaxPlayers,
+                e.MinPlayTime,
+                e.MaxPlayTime,
+                e.FamilyId,
+                e.FamilyName,
+                e.LanguageDependence,
                 e.Categories.ToList()))
             .Skip(skip)
             .Take(take)
